@@ -142,6 +142,14 @@ function displaySubjects() {
 }
 
 displaySubjects();
+    function openSubject(name, semester) {
+    localStorage.setItem("selectedSubject", name);
+    localStorage.setItem("selectedSemester", semester);
+
+    window.location.href = "subject.html";
+}
+
+displaySubjects();
 </script>
 </div>
 </body>
