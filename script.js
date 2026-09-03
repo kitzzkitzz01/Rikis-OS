@@ -62,16 +62,14 @@ function updateProgress() {
 
     const total = checklist.length;
 
-    console.log(
-        `Riki is ready: ${completed}/${total}`
-    );
+    const counter = document.getElementById("essential-count");
+
+    if (counter) {
+        counter.textContent = `${completed}/${total}`;
+    }
 
     if (completed === total && total > 0) {
-
-        console.log(
-            "🎉 Perfect! Riki is ready! 🧸❤️"
-        );
-
+        console.log("🎉 Perfect! Riki is ready! 🧸❤️");
     }
 }
 
