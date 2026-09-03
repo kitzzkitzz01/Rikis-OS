@@ -88,3 +88,71 @@ checklist.forEach(box => {
 // Start
 checkNewDay();
 loadChecklist();
+// 🧸 Riki's Care Center
+
+const careCheckboxes = document.querySelectorAll(
+    ".care-checkbox"
+);
+
+const CARE_STORAGE_KEY = "rikiCareChecklist";
+const CARE_DATE_KEY = "rikiCareDate";
+
+
+// Check if care checklist belongs to today
+function checkCareNewDay() {
+
+    const today = new Date().toDateString();
+    const savedDate = localStorage.getItem(CARE_DATE_KEY);
+
+    if (savedDate !== today) {
+
+        localStorage.removeItem(CARE_STORAGE_KEY);
+        localStorage.setItem(CARE_DATE_KEY, today);
+
+    }
+}
+
+
+// Load saved care checklist
+function loadCareChecklist() {
+
+    const saved = JSON.parse(
+        localStorage.getItem(CARE_STORAGE_KEY) || "[]"
+    );
+
+    careCheckboxes.forEach((box, index) => {
+        box.checked = saved[index] || false;
+    });
+
+}
+
+
+// Save care checklist
+function saveCareChecklist() {
+
+    const checked = Array.from(careCheckboxes).map(
+        box => box.checked
+    );
+
+    localStorage.setItem(
+        CARE_STORAGE_KEY,
+        JSON.stringify(checked)
+    );
+
+}
+
+
+// Watch care checkboxes
+careCheckboxes.forEach(box => {
+
+    box.addEventListener(
+        "change",
+        saveCareChecklist
+    );
+
+});
+
+
+// Start Care Center
+checkCareNewDay();
+loadCareChecklist();
