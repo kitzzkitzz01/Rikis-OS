@@ -7,25 +7,17 @@ const checklist = document.querySelectorAll(
 const STORAGE_KEY = "rikiDailyChecklist";
 const DATE_KEY = "rikiChecklistDate";
 
-
-// Check whether it's a new day
 function checkNewDay() {
-
     const today = new Date().toDateString();
     const savedDate = localStorage.getItem(DATE_KEY);
 
     if (savedDate !== today) {
-
         localStorage.removeItem(STORAGE_KEY);
         localStorage.setItem(DATE_KEY, today);
-
     }
 }
 
-
-// Load saved checklist
 function loadChecklist() {
-
     const saved = JSON.parse(
         localStorage.getItem(STORAGE_KEY) || "[]"
     );
@@ -37,10 +29,7 @@ function loadChecklist() {
     updateProgress();
 }
 
-
-// Save checklist
 function saveChecklist() {
-
     const checked = Array.from(checklist).map(
         box => box.checked
     );
@@ -53,10 +42,7 @@ function saveChecklist() {
     updateProgress();
 }
 
-
-// Update progress
 function updateProgress() {
-
     const completed = Array.from(checklist)
         .filter(box => box.checked).length;
 
@@ -67,27 +53,16 @@ function updateProgress() {
     if (counter) {
         counter.textContent = `${completed}/${total}`;
     }
-
-    if (completed === total && total > 0) {
-        console.log("🎉 Perfect! Riki is ready! 🧸❤️");
-    }
 }
 
-
-// Listen for checkbox changes
 checklist.forEach(box => {
-
-    box.addEventListener(
-        "change",
-        saveChecklist
-    );
-
+    box.addEventListener("change", saveChecklist);
 });
 
-
-// Start
 checkNewDay();
 loadChecklist();
+
+
 // 🧸 Riki's Care Center
 
 const careCheckboxes = document.querySelectorAll(
@@ -97,25 +72,17 @@ const careCheckboxes = document.querySelectorAll(
 const CARE_STORAGE_KEY = "rikiCareChecklist";
 const CARE_DATE_KEY = "rikiCareDate";
 
-
-// Check if care checklist belongs to today
 function checkCareNewDay() {
-
     const today = new Date().toDateString();
     const savedDate = localStorage.getItem(CARE_DATE_KEY);
 
     if (savedDate !== today) {
-
         localStorage.removeItem(CARE_STORAGE_KEY);
         localStorage.setItem(CARE_DATE_KEY, today);
-
     }
 }
 
-
-// Load saved care checklist
 function loadCareChecklist() {
-
     const saved = JSON.parse(
         localStorage.getItem(CARE_STORAGE_KEY) || "[]"
     );
@@ -123,13 +90,9 @@ function loadCareChecklist() {
     careCheckboxes.forEach((box, index) => {
         box.checked = saved[index] || false;
     });
-
 }
 
-
-// Save care checklist
 function saveCareChecklist() {
-
     const checked = Array.from(careCheckboxes).map(
         box => box.checked
     );
@@ -138,21 +101,11 @@ function saveCareChecklist() {
         CARE_STORAGE_KEY,
         JSON.stringify(checked)
     );
-
 }
 
-
-// Watch care checkboxes
 careCheckboxes.forEach(box => {
-
-    box.addEventListener(
-        "change",
-        saveCareChecklist
-    );
-
+    box.addEventListener("change", saveCareChecklist);
 });
 
-
-// Start Care Center
 checkCareNewDay();
 loadCareChecklist();
