@@ -401,3 +401,59 @@ footer small {
         width: 100%;
     }
 }
+/* 📚 SUBJECTS */
+
+.subjects-section {
+    margin-bottom: 30px;
+}
+
+.subject-list {
+    margin-top: 15px;
+}
+
+.subject-card {
+    background: #141a27;
+    border: 1px solid #242c3d;
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 15px;
+}
+
+.subject-card strong {
+    display: block;
+    font-size: 16px;
+}
+
+.subject-card small {
+    display: block;
+    color: #8d96aa;
+    margin-top: 5px;
+    font-size: 13px;
+}
+
+.add-subject-btn {
+    border: none;
+    background: #b78cff;
+    color: #111522;
+    padding: 10px 16px;
+    border-radius: 11px;
+    font-weight: 700;
+    cursor: pointer;
+}
+
+.add-subject-btn:hover {
+    transform: translateY(-2px);
+}
+
+@media (max-width: 600px) {
+    .subject-card {
+        align-items: flex-start;
+    }
+
+    .add-subject-btn {
+        flex-shrink: 0;
+    }
+}
