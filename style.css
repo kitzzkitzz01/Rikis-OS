@@ -562,3 +562,49 @@ footer small {
         width: 100%;
     }
 }
+/* 📚 STUDY OPTIONS */
+
+.study-options {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 14px;
+    margin-top: 25px;
+}
+
+.study-option {
+    background: #141a27;
+    border: 1px solid #242c3d;
+    border-radius: 18px;
+    padding: 18px;
+    display: flex;
+    flex-direction: column;
+    gap: 7px;
+    transition: 0.2s;
+}
+
+.study-option:hover {
+    transform: translateY(-2px);
+    border-color: #3a4358;
+}
+
+.study-option span {
+    font-size: 25px;
+}
+
+.study-option strong {
+    font-size: 16px;
+}
+
+.study-option small {
+    color: #8d96aa;
+    font-size: 13px;
+    line-height: 1.4;
+}
+
+@media (max-width: 600px) {
+
+    .study-options {
+        grid-template-columns: 1fr;
+    }
+
+}
