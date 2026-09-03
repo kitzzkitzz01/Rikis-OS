@@ -341,4 +341,63 @@ footer small {
         grid-template-columns: 1fr;
     }
 
+}/* 📚 STUDY HUB */
+
+.study-section {
+    margin-bottom: 30px;
+}
+
+.study-card {
+    margin-top: 15px;
+    padding: 20px;
+    background: #141a27;
+    border: 1px solid #242c3d;
+    border-radius: 20px;
+    display: flex;
+    align-items: center;
+    justify-content: space-between;
+    gap: 20px;
+}
+
+.study-card strong {
+    display: block;
+    font-size: 17px;
+    margin-bottom: 6px;
+}
+
+.study-card p {
+    margin: 0;
+    color: #8d96aa;
+    font-size: 14px;
+}
+
+.study-btn {
+    border: none;
+    background: #b78cff;
+    color: #111522;
+    padding: 12px 18px;
+    border-radius: 12px;
+    font-weight: 700;
+    cursor: pointer;
+    white-space: nowrap;
+    transition: 0.2s;
+}
+
+.study-btn:hover {
+    transform: translateY(-2px);
+}
+
+.study-icon {
+    font-size: 25px;
+}
+
+@media (max-width: 600px) {
+    .study-card {
+        flex-direction: column;
+        align-items: stretch;
+    }
+
+    .study-btn {
+        width: 100%;
+    }
 }
