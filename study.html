@@ -47,10 +47,10 @@
                     Add the subjects you are studying this semester.
                 </small>
             </div>
-
-            <button class="add-subject-btn">
-                + Add
-            </button>
+<button class="add-subject-btn" onclick="addSubject()">
+    + Add
+</button>
+            
         </div>
 
     </div>
@@ -91,6 +91,36 @@
     </button>
 
 </div>
+<script>
+function addSubject() {
 
+    const subjectName = prompt("📚 Enter subject name:");
+
+    if (!subjectName || subjectName.trim() === "") {
+        return;
+    }
+
+    const semester = prompt("🎓 Enter semester:");
+
+    if (!semester || semester.trim() === "") {
+        return;
+    }
+
+    const subjectList = document.querySelector(".subject-list");
+
+    const subjectCard = document.createElement("div");
+
+    subjectCard.className = "subject-card";
+
+    subjectCard.innerHTML = `
+        <div>
+            <strong>📖 ${subjectName}</strong>
+            <small>Semester ${semester}</small>
+        </div>
+    `;
+
+    subjectList.appendChild(subjectCard);
+}
+    </script>
 </body>
 </html>
