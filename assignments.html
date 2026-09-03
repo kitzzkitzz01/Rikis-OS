@@ -1,0 +1,196 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Assignments • Riki's OS 🧸</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <p class="small-text">RIKI'S OS • STUDY</p>
+        <h1>Assignments 📝</h1>
+        <p>Stay on top of your college work, Riki. 🧸💻</p>
+    </header>
+
+
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">COLLEGE WORK</p>
+                <h2>My Assignments 🎯</h2>
+            </div>
+
+            <span>📝</span>
+        </div>
+
+
+        <div id="assignment-list"></div>
+
+
+        <button class="add-topic-btn" onclick="addAssignment()">
+            + Add Assignment
+        </button>
+
+    </section>
+
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back to Subject
+    </button>
+
+</div>
+
+
+<script>
+
+let assignments = JSON.parse(
+    localStorage.getItem("rikiAssignments") || "[]"
+);
+
+
+// Add assignment
+function addAssignment() {
+
+    const name = prompt("📝 Enter assignment name:");
+
+    if (!name || !name.trim()) return;
+
+
+    const subject = prompt("📚 Enter subject:");
+
+    if (!subject || !subject.trim()) return;
+
+
+    const dueDate = prompt(
+        "📅 Enter due date (example: 12 September):"
+    );
+
+    if (!dueDate || !dueDate.trim()) return;
+
+
+    assignments.push({
+        name: name.trim(),
+        subject: subject.trim(),
+        dueDate: dueDate.trim(),
+        status: "Pending"
+    });
+
+
+    saveAssignments();
+    displayAssignments();
+}
+
+
+// Save assignments
+function saveAssignments() {
+
+    localStorage.setItem(
+        "rikiAssignments",
+        JSON.stringify(assignments)
+    );
+
+}
+
+
+// Display assignments
+function displayAssignments() {
+
+    const list = document.getElementById("assignment-list");
+
+    list.innerHTML = "";
+
+
+    if (assignments.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>📝</span>
+                <strong>No assignments yet</strong>
+                <small>Add your first assignment to start tracking.</small>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    assignments.forEach((assignment, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div>
+
+                    <strong>📝 ${assignment.name}</strong>
+
+                    <small>
+                        📚 ${assignment.subject}
+                        • 📅 ${assignment.dueDate}
+                    </small>
+
+                    <small>
+                        Status: ${assignment.status}
+                    </small>
+
+                </div>
+
+
+                <select
+                    onchange="changeAssignmentStatus(${index}, this.value)"
+                >
+
+                    <option
+                        ${assignment.status === "Pending" ? "selected" : ""}>
+                        Pending
+                    </option>
+
+                    <option
+                        ${assignment.status === "In Progress" ? "selected" : ""}>
+                        In Progress
+                    </option>
+
+                    <option
+                        ${assignment.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// Change status
+function changeAssignmentStatus(index, status) {
+
+    assignments[index].status = status;
+
+    saveAssignments();
+    displayAssignments();
+
+}
+
+
+// Show assignments
+displayAssignments();
+
+</script>
+
+</body>
+
+</html>
