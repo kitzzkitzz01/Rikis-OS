@@ -118,7 +118,9 @@ function displaySubjects() {
 
     subjects.forEach(subject => {
         list.innerHTML += `
-            <div class="subject-card">
+            <div class="subject-card"><div class="subject-card"
+     onclick='openSubject(${JSON.stringify(subject.name)}, ${JSON.stringify(subject.semester)})'
+     style="cursor: pointer;">
                 <div>
                     <strong>📖 ${subject.name}</strong>
                     <small>Semester ${subject.semester}</small>
