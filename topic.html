@@ -1,0 +1,177 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Topics • Riki's OS 🧸</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <p class="small-text">RIKI'S OS • STUDY</p>
+        <h1 id="topic-title">Topics 📚</h1>
+        <p id="topic-subtitle">Track your study progress, Riki. 🧸</p>
+    </header>
+
+    <!-- Add Topic -->
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">STUDY TRACKER</p>
+                <h2>My Topics 🎯</h2>
+            </div>
+            <span>📚</span>
+        </div>
+
+        <div id="topic-list"></div>
+
+        <button class="add-topic-btn" onclick="addTopic()">
+            + Add Topic
+        </button>
+
+    </section>
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back to Subject
+    </button>
+
+</div>
+
+
+<script>
+
+const subject =
+    localStorage.getItem("selectedSubject") || "Subject";
+
+const semester =
+    localStorage.getItem("selectedSemester") || "";
+
+document.getElementById("topic-title").textContent =
+    "📖 " + subject;
+
+document.getElementById("topic-subtitle").textContent =
+    "Semester " + semester + " • Topics 📚";
+
+
+// Load saved topics
+let topics = JSON.parse(
+    localStorage.getItem("rikiTopics_" + subject) || "[]"
+);
+
+
+// Add a new topic
+function addTopic() {
+
+    const name = prompt("📚 Enter topic name:");
+
+    if (!name || !name.trim()) return;
+
+    topics.push({
+        name: name.trim(),
+        status: "Not Started"
+    });
+
+    saveTopics();
+    displayTopics();
+}
+
+
+// Save topics
+function saveTopics() {
+
+    localStorage.setItem(
+        "rikiTopics_" + subject,
+        JSON.stringify(topics)
+    );
+
+}
+
+
+// Display topics
+function displayTopics() {
+
+    const list = document.getElementById("topic-list");
+
+    list.innerHTML = "";
+
+    if (topics.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>📚</span>
+                <strong>No topics added yet</strong>
+                <small>Add your first topic to start tracking.</small>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    topics.forEach((topic, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div>
+                    <strong>📖 ${topic.name}</strong>
+
+                    <small>
+                        Status: ${topic.status}
+                    </small>
+                </div>
+
+                <select onchange="changeStatus(${index}, this.value)">
+
+                    <option
+                        ${topic.status === "Not Started" ? "selected" : ""}>
+                        Not Started
+                    </option>
+
+                    <option
+                        ${topic.status === "In Progress" ? "selected" : ""}>
+                        In Progress
+                    </option>
+
+                    <option
+                        ${topic.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// Change topic status
+function changeStatus(index, status) {
+
+    topics[index].status = status;
+
+    saveTopics();
+    displayTopics();
+
+}
+
+
+// Show topics
+displayTopics();
+
+</script>
+
+</body>
+</html>
