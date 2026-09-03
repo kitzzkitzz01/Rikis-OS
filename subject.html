@@ -52,6 +52,19 @@
     </button>
 
 </div>
+<script>
+const subject = localStorage.getItem("selectedSubject");
+const semester = localStorage.getItem("selectedSemester");
 
+if (subject) {
+    document.getElementById("subject-title").textContent =
+        "📖 " + subject;
+}
+
+if (semester) {
+    document.getElementById("subject-semester").textContent =
+        "Semester " + semester;
+}
+</script>
 </body>
 </html>
