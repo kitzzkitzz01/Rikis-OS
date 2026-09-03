@@ -92,35 +92,57 @@
 
 </div>
 <script>
+let subjects = JSON.parse(localStorage.getItem("rikiSubjects") || "[]");
+
 function addSubject() {
-
-    const subjectName = prompt("📚 Enter subject name:");
-
-    if (!subjectName || subjectName.trim() === "") {
-        return;
-    }
+    const name = prompt("📚 Enter subject name:");
+    if (!name) return;
 
     const semester = prompt("🎓 Enter semester:");
+    if (!semester) return;
 
-    if (!semester || semester.trim() === "") {
-        return;
-    }
+    subjects.push({
+        name: name.trim(),
+        semester: semester.trim()
+    });
 
-    const subjectList = document.querySelector(".subject-list");
+    localStorage.setItem("rikiSubjects", JSON.stringify(subjects));
 
-    const subjectCard = document.createElement("div");
+    displaySubjects();
+}
 
-    subjectCard.className = "subject-card";
+function displaySubjects() {
+    const list = document.querySelector(".subject-list");
 
-    subjectCard.innerHTML = `
-        <div>
-            <strong>📖 ${subjectName}</strong>
-            <small>Semester ${semester}</small>
+    list.innerHTML = "";
+
+    subjects.forEach(subject => {
+        list.innerHTML += `
+            <div class="subject-card">
+                <div>
+                    <strong>📖 ${subject.name}</strong>
+                    <small>Semester ${subject.semester}</small>
+                </div>
+            </div>
+        `;
+    });
+
+    list.innerHTML += `
+        <div class="subject-card">
+            <div>
+                <strong>+ Add a subject</strong>
+                <small>Add another B.Tech subject.</small>
+            </div>
+
+            <button class="add-subject-btn" onclick="addSubject()">
+                + Add
+            </button>
         </div>
     `;
-
-    subjectList.appendChild(subjectCard);
 }
+
+displaySubjects();
 </script>
+</div>
 </body>
 </html>
