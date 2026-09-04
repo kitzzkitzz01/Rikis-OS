@@ -20,7 +20,6 @@
         <p>Build your coding skills, one step at a time. 🧸</p>
     </header>
 
-
     <section class="study-page-card">
 
         <div class="section-heading">
@@ -183,6 +182,7 @@ function changeSkillStatus(index, status) {
 }
 
 
+
 // =========================
 // CODING GOALS
 // =========================
@@ -207,6 +207,7 @@ function addGoal() {
 
     saveGoals();
     displayGoals();
+
 }
 
 
@@ -261,4 +262,50 @@ function displayGoals() {
                 >
 
                     <option
-                       
+                        ${goal.status === "Not Started" ? "selected" : ""}>
+                        Not Started
+                    </option>
+
+                    <option
+                        ${goal.status === "In Progress" ? "selected" : ""}>
+                        In Progress
+                    </option>
+
+                    <option
+                        ${goal.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+function changeGoalStatus(index, status) {
+
+    goals[index].status = status;
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+// =========================
+// START
+// =========================
+
+displaySkills();
+displayGoals();
+
+</script>
+
+</body>
+
+</html>
