@@ -1,4 +1,4 @@
-{
+i{
   "name": "Riki's OS 🧸",
   "short_name": "Riki's OS",
   "start_url": "./index.html",
@@ -6,5 +6,11 @@
   "background_color": "#0d111c",
   "theme_color": "#0d111c",
   "description": "Riki's personal study, coding and life OS.",
-  "icons": []
-}
+  "icons": [
+  {
+    "src": "./icon.png",
+    "sizes": "512x512",
+    "type": "image/png"
+  }
+  ]
+
