@@ -608,3 +608,39 @@ footer small {
     }
 
 }
+/* 📝 ASSIGNMENT ACTIONS */
+
+.assignment-actions {
+    display: flex;
+    align-items: center;
+    gap: 8px;
+}
+
+.delete-assignment-btn {
+    border: 1px solid #3a4358;
+    background: #1b2232;
+    color: #ff9fae;
+    width: 40px;
+    height: 40px;
+    border-radius: 10px;
+    cursor: pointer;
+    font-size: 17px;
+    transition: 0.2s;
+}
+
+.delete-assignment-btn:hover {
+    transform: translateY(-2px);
+    border-color: #ff9fae;
+}
+
+@media (max-width: 600px) {
+
+    .assignment-actions {
+        width: 100%;
+    }
+
+    .assignment-actions select {
+        flex: 1;
+    }
+
+}
