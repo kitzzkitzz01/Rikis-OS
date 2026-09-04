@@ -52,16 +52,21 @@ let tasks = JSON.parse(
 );
 
 function addTask() {
+function addTask() {
 
-    const name = prompt("📝 Enter your task:");
+    const name = window.prompt("📝 Enter your task:");
 
-    if (!name || !name.trim()) return;
+    if (name === null || !name.trim()) {
+        return;
+    }
 
-    const deadline = prompt(
+    const deadline = window.prompt(
         "📅 Enter deadline (example: 15 September):"
     );
 
-    if (!deadline || !deadline.trim()) return;
+    if (deadline === null || !deadline.trim()) {
+        return;
+    }
 
     tasks.push({
         name: name.trim(),
@@ -72,7 +77,6 @@ function addTask() {
     saveTasks();
     displayTasks();
 }
-
 function saveTasks() {
 
     localStorage.setItem(
