@@ -1,0 +1,201 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Progress • Riki's OS 🧸</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <p class="small-text">RIKI'S OS • STUDY</p>
+        <h1 id="progress-title">Progress 🎯</h1>
+        <p id="progress-subtitle">Keep going, Riki. 🧸❤️</p>
+    </header>
+
+
+    <!-- Overall Progress -->
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">YOUR JOURNEY</p>
+                <h2>Overall Progress 📊</h2>
+            </div>
+
+            <span>🎯</span>
+        </div>
+
+
+        <div class="progress-number">
+            <strong id="overall-percent">0%</strong>
+            <small>Overall Subject Progress</small>
+        </div>
+
+
+        <div class="progress-bar">
+            <div id="overall-bar"></div>
+        </div>
+
+    </section>
+
+
+    <!-- Topics Progress -->
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">TOPICS</p>
+                <h2>Topic Progress 📚</h2>
+            </div>
+        </div>
+
+        <div class="progress-stat">
+
+            <strong id="topic-count">
+                0 / 0
+            </strong>
+
+            <small>
+                Topics Completed
+            </small>
+
+        </div>
+
+    </section>
+
+
+    <!-- Assignment Progress -->
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">ASSIGNMENTS</p>
+                <h2>Assignment Progress 📝</h2>
+            </div>
+        </div>
+
+        <div class="progress-stat">
+
+            <strong id="assignment-count">
+                0 / 0
+            </strong>
+
+            <small>
+                Assignments Completed
+            </small>
+
+        </div>
+
+    </section>
+
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back to Subject
+    </button>
+
+</div>
+
+
+<script>
+
+const subject =
+    localStorage.getItem("selectedSubject") || "Subject";
+
+const semester =
+    localStorage.getItem("selectedSemester") || "";
+
+
+document.getElementById("progress-title").textContent =
+    "📖 " + subject;
+
+document.getElementById("progress-subtitle").textContent =
+    "Semester " + semester + " • Progress 🎯";
+
+
+// -------------------------
+// TOPICS
+// -------------------------
+
+const topics = JSON.parse(
+    localStorage.getItem("rikiTopics_" + subject) || "[]"
+);
+
+const totalTopics = topics.length;
+
+const completedTopics = topics.filter(
+    topic => topic.status === "Completed"
+).length;
+
+
+// -------------------------
+// ASSIGNMENTS
+// -------------------------
+
+const assignments = JSON.parse(
+    localStorage.getItem("rikiAssignments") || "[]"
+);
+
+const totalAssignments = assignments.length;
+
+const completedAssignments = assignments.filter(
+    assignment => assignment.status === "Completed"
+).length;
+
+
+// -------------------------
+// CALCULATE PROGRESS
+// -------------------------
+
+let overallProgress = 0;
+
+if (totalTopics > 0 || totalAssignments > 0) {
+
+    const topicProgress =
+        totalTopics > 0
+        ? completedTopics / totalTopics
+        : 0;
+
+    const assignmentProgress =
+        totalAssignments > 0
+        ? completedAssignments / totalAssignments
+        : 0;
+
+    const activeSections =
+        (totalTopics > 0 ? 1 : 0) +
+        (totalAssignments > 0 ? 1 : 0);
+
+    overallProgress =
+        ((topicProgress + assignmentProgress) / activeSections) * 100;
+}
+
+
+// -------------------------
+// DISPLAY
+// -------------------------
+
+document.getElementById("topic-count").textContent =
+    `${completedTopics} / ${totalTopics}`;
+
+document.getElementById("assignment-count").textContent =
+    `${completedAssignments} / ${totalAssignments}`;
+
+
+document.getElementById("overall-percent").textContent =
+    `${Math.round(overallProgress)}%`;
+
+document.getElementById("overall-bar").style.width =
+    `${overallProgress}%`;
+
+</script>
+
+</body>
+
+</html>
