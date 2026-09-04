@@ -1,0 +1,264 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Code Lab • Riki's OS 🧸</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <p class="small-text">RIKI'S OS • CODE LAB</p>
+        <h1>Code Lab 💻</h1>
+        <p>Build your coding skills, one step at a time. 🧸</p>
+    </header>
+
+
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">CODING JOURNEY</p>
+                <h2>My Skills 🧩</h2>
+            </div>
+
+            <span>💻</span>
+        </div>
+
+        <div id="skill-list"></div>
+
+        <button class="add-topic-btn" onclick="addSkill()">
+            + Add Skill
+        </button>
+
+    </section>
+
+
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">PRACTICE</p>
+                <h2>Coding Goals 🎯</h2>
+            </div>
+
+            <span>🔥</span>
+        </div>
+
+        <div id="goal-list"></div>
+
+        <button class="add-topic-btn" onclick="addGoal()">
+            + Add Coding Goal
+        </button>
+
+    </section>
+
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back to Riki's OS
+    </button>
+
+</div>
+
+
+<script>
+
+// =========================
+// SKILLS
+// =========================
+
+let skills = JSON.parse(
+    localStorage.getItem("rikiCodingSkills") || "[]"
+);
+
+
+function addSkill() {
+
+    const name = prompt(
+        "💻 Enter a skill you are learning:"
+    );
+
+    if (!name || !name.trim()) return;
+
+    skills.push({
+        name: name.trim(),
+        status: "Learning"
+    });
+
+    saveSkills();
+    displaySkills();
+}
+
+
+function saveSkills() {
+
+    localStorage.setItem(
+        "rikiCodingSkills",
+        JSON.stringify(skills)
+    );
+
+}
+
+
+function displaySkills() {
+
+    const list = document.getElementById("skill-list");
+
+    list.innerHTML = "";
+
+    if (skills.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>💻</span>
+                <strong>No skills added yet</strong>
+                <small>Add the coding skills you want to learn.</small>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    skills.forEach((skill, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div>
+
+                    <strong>💻 ${skill.name}</strong>
+
+                    <small>
+                        Status: ${skill.status}
+                    </small>
+
+                </div>
+
+                <select
+                    onchange="changeSkillStatus(${index}, this.value)"
+                >
+
+                    <option
+                        ${skill.status === "Learning" ? "selected" : ""}>
+                        Learning
+                    </option>
+
+                    <option
+                        ${skill.status === "Practicing" ? "selected" : ""}>
+                        Practicing
+                    </option>
+
+                    <option
+                        ${skill.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+function changeSkillStatus(index, status) {
+
+    skills[index].status = status;
+
+    saveSkills();
+    displaySkills();
+
+}
+
+
+// =========================
+// CODING GOALS
+// =========================
+
+let goals = JSON.parse(
+    localStorage.getItem("rikiCodingGoals") || "[]"
+);
+
+
+function addGoal() {
+
+    const name = prompt(
+        "🎯 Enter your coding goal:"
+    );
+
+    if (!name || !name.trim()) return;
+
+    goals.push({
+        name: name.trim(),
+        status: "Not Started"
+    });
+
+    saveGoals();
+    displayGoals();
+}
+
+
+function saveGoals() {
+
+    localStorage.setItem(
+        "rikiCodingGoals",
+        JSON.stringify(goals)
+    );
+
+}
+
+
+function displayGoals() {
+
+    const list = document.getElementById("goal-list");
+
+    list.innerHTML = "";
+
+    if (goals.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>🎯</span>
+                <strong>No coding goals yet</strong>
+                <small>Add a goal and start working towards it.</small>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    goals.forEach((goal, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div>
+
+                    <strong>🎯 ${goal.name}</strong>
+
+                    <small>
+                        Status: ${goal.status}
+                    </small>
+
+                </div>
+
+                <select
+                    onchange="changeGoalStatus(${index}, this.value)"
+                >
+
+                    <option
+                       
