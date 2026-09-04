@@ -644,3 +644,71 @@ footer small {
     }
 
 }
+/* 🎯 PROGRESS PAGE */
+
+.progress-number {
+    text-align: center;
+    margin-top: 20px;
+}
+
+.progress-number strong {
+    display: block;
+    font-size: 42px;
+    font-weight: 800;
+}
+
+.progress-number small {
+    display: block;
+    color: #8d96aa;
+    margin-top: 5px;
+}
+
+.progress-bar {
+    width: 100%;
+    height: 14px;
+    background: #20283a;
+    border-radius: 20px;
+    overflow: hidden;
+    margin-top: 20px;
+}
+
+#overall-bar {
+    height: 100%;
+    width: 0%;
+    background: #b78cff;
+    border-radius: 20px;
+    transition: width 0.5s ease;
+}
+
+.progress-stat {
+    margin-top: 18px;
+    padding: 20px;
+    background: #141a27;
+    border: 1px solid #242c3d;
+    border-radius: 18px;
+    text-align: center;
+}
+
+.progress-stat strong {
+    display: block;
+    font-size: 28px;
+    font-weight: 800;
+}
+
+.progress-stat small {
+    display: block;
+    color: #8d96aa;
+    margin-top: 6px;
+}
+
+@media (max-width: 600px) {
+
+    .progress-number strong {
+        font-size: 36px;
+    }
+
+    .progress-bar {
+        height: 12px;
+    }
+
+}
