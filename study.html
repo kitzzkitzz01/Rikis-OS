@@ -1,5 +1,6 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
@@ -19,6 +20,7 @@
         <p>Let's make studying a little easier, Riki. 🧸❤️</p>
     </header>
 
+
     <section class="study-page-card">
 
         <h2>Welcome to your Study Hub 💻</h2>
@@ -27,139 +29,312 @@
             Your subjects, topics, assignments and exams
             will live here.
         </p>
-<!-- Subjects -->
-<section class="subjects-section">
 
-    <div class="section-heading">
-        <div>
-            <p class="small-text">YOUR B.TECH JOURNEY</p>
-            <h2>My Subjects 📚</h2>
-            <section class="study-page-card" id="subject-section">
-        </div>
-        <span>🎓</span>
-    </div>
+    </section>
 
-    <div class="subject-list">
 
-        <div class="subject-card">
+    <!-- STUDY OPTIONS -->
+
+    <section class="study-page-card">
+
+        <div class="section-heading">
+
             <div>
-                <strong>+ Add your first subject</strong>
-                <small>
-                    Add the subjects you are studying this semester.
-                </small>
+                <p class="small-text">STUDY TOOLS</p>
+                <h2>What are we working on? 📚</h2>
             </div>
-<button class="add-subject-btn" onclick="addSubject()">
-    + Add
-</button>
-            
+
+            <span>🧸</span>
+
         </div>
 
-    </div>
 
-</section>
-     <div class="study-option"
-      onclick="document.getElementById('subject-section').scrollIntoView({behavior:'smooth'})"
-     style="cursor: pointer;">
-    <span>📖</span>
-    <strong>Subjects</strong>
-    <small>Add your B.Tech subjects</small>
-     </div>   
+        <div
+            class="study-option"
+            onclick="goToSubjects()"
+            style="cursor:pointer;"
+        >
 
-            <div class="study-option"
-     onclick="window.location.href='assignments.html'"
-     style="cursor: pointer;">
-    <span>📝</span>
-    <strong>Assignments</strong>
-    <small>Keep track of your work</small>
-            </div>
+            <span>📖</span>
 
-            <div class="study-option"
-     onclick="window.location.href='topic.html'"
-     style="cursor: pointer;">
-    <span>🎯</span>
-    <strong>Topics</strong>
-    <small>Choose a subject to track topics</small>
-            </div>
+            <strong>Subjects</strong>
 
-            <div class="study-option"
-     onclick="window.location.href='exam.html'"
-     style="cursor: pointer;">
-    <span>📅</span>
-    <strong>Exams</strong>
-    <small>Never forget an exam</small>
-            </div>
+            <small>
+                Add your B.Tech subjects
+            </small>
+
+        </div>
+
+
+        <div
+            class="study-option"
+            onclick="window.location.href='assignments.html'"
+            style="cursor:pointer;"
+        >
+
+            <span>📝</span>
+
+            <strong>Assignments</strong>
+
+            <small>
+                Keep track of your work
+            </small>
+
+        </div>
+
+
+        <div
+            class="study-option"
+            onclick="window.location.href='topic.html'"
+            style="cursor:pointer;"
+        >
+
+            <span>🎯</span>
+
+            <strong>Topics</strong>
+
+            <small>
+                Choose a subject to track topics
+            </small>
+
+        </div>
+
+
+        <div
+            class="study-option"
+            onclick="window.location.href='exam.html'"
+            style="cursor:pointer;"
+        >
+
+            <span>📅</span>
+
+            <strong>Exams</strong>
+
+            <small>
+                Never forget an exam
+            </small>
 
         </div>
 
     </section>
 
-    <button class="back-btn" onclick="history.back()">
+
+    <!-- MY SUBJECTS -->
+
+    <section
+        class="study-page-card subjects-section"
+        id="subject-section"
+    >
+
+        <div class="section-heading">
+
+            <div>
+                <p class="small-text">
+                    YOUR B.TECH JOURNEY
+                </p>
+
+                <h2>My Subjects 📚</h2>
+            </div>
+
+            <span>🎓</span>
+
+        </div>
+
+
+        <div class="subject-list"></div>
+
+
+        <button
+            class="add-subject-btn"
+            onclick="addSubject()"
+        >
+            + Add Subject
+        </button>
+
+    </section>
+
+
+    <button
+        class="back-btn"
+        onclick="history.back()"
+    >
         ← Back to Riki's OS
     </button>
 
 </div>
+
+
 <script>
-let subjects = JSON.parse(localStorage.getItem("rikiSubjects") || "[]");
 
-function addSubject() {
-    const name = prompt("📚 Enter subject name:");
-    if (!name) return;
+// =========================
+// SUBJECTS
+// =========================
 
-    const semester = prompt("🎓 Enter semester:");
-    if (!semester) return;
+let subjects = JSON.parse(
+    localStorage.getItem("rikiSubjects") || "[]"
+);
 
-    subjects.push({
-        name: name.trim(),
-        semester: semester.trim()
-    });
 
-    localStorage.setItem("rikiSubjects", JSON.stringify(subjects));
+// =========================
+// GO TO SUBJECTS
+// =========================
 
-    displaySubjects();
+function goToSubjects() {
+
+    const section =
+        document.getElementById("subject-section");
+
+    if (section) {
+
+        section.scrollIntoView({
+            behavior: "smooth",
+            block: "start"
+        });
+
+    }
+
 }
 
+
+// =========================
+// ADD SUBJECT
+// =========================
+
+function addSubject() {
+
+    const name = prompt(
+        "📚 Enter subject name:"
+    );
+
+    if (!name || !name.trim()) return;
+
+
+    const semester = prompt(
+        "🎓 Enter semester:"
+    );
+
+    if (!semester || !semester.trim()) return;
+
+
+    subjects.push({
+
+        name: name.trim(),
+
+        semester: semester.trim()
+
+    });
+
+
+    localStorage.setItem(
+        "rikiSubjects",
+        JSON.stringify(subjects)
+    );
+
+
+    displaySubjects();
+
+}
+
+
+// =========================
+// DISPLAY SUBJECTS
+// =========================
+
 function displaySubjects() {
-    const list = document.querySelector(".subject-list");
+
+    const list =
+        document.querySelector(".subject-list");
+
 
     list.innerHTML = "";
 
-    subjects.forEach(subject => {
+
+    subjects.forEach((subject, index) => {
+
         list.innerHTML += `
-            <div class="subject-card"><div class="subject-card"
-     onclick='openSubject(${JSON.stringify(subject.name)}, ${JSON.stringify(subject.semester)})'
-     style="cursor: pointer;">
+
+            <div
+                class="subject-card"
+                onclick="openSubject(${index})"
+                style="cursor:pointer;"
+            >
+
                 <div>
-                    <strong>📖 ${subject.name}</strong>
-                    <small>Semester ${subject.semester}</small>
+
+                    <strong>
+                        📖 ${subject.name}
+                    </strong>
+
+                    <small>
+                        Semester ${subject.semester}
+                    </small>
+
                 </div>
+
             </div>
+
         `;
+
     });
 
+
     list.innerHTML += `
+
         <div class="subject-card">
+
             <div>
-                <strong>+ Add a subject</strong>
-                <small>Add another B.Tech subject.</small>
+
+                <strong>
+                    ➕ Add another subject
+                </strong>
+
+                <small>
+                    Add another B.Tech subject.
+                </small>
+
             </div>
 
-            <button class="add-subject-btn" onclick="addSubject()">
-                + Add
-            </button>
         </div>
+
     `;
+
 }
 
-displaySubjects();
-    function openSubject(name, semester) {
-    localStorage.setItem("selectedSubject", name);
-    localStorage.setItem("selectedSemester", semester);
+
+// =========================
+// OPEN SUBJECT
+// =========================
+
+function openSubject(index) {
+
+    const subject = subjects[index];
+
+
+    localStorage.setItem(
+        "selectedSubject",
+        subject.name
+    );
+
+
+    localStorage.setItem(
+        "selectedSemester",
+        subject.semester
+    );
+
 
     window.location.href = "subject.html";
+
 }
 
+
+// =========================
+// START
+// =========================
+
 displaySubjects();
+
 </script>
-</div>
+
 </body>
+
 </html>
