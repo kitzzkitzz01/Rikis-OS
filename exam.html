@@ -1,0 +1,97 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Exams • Riki's OS 🧸</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <p class="small-text">RIKI'S OS • STUDY</p>
+        <h1>My Exams 📅</h1>
+        <p>Keep track of your exams, Riki. 🧸📚</p>
+    </header>
+
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">EXAM TRACKER</p>
+                <h2>Upcoming Exams 🎯</h2>
+            </div>
+
+            <span>📅</span>
+        </div>
+
+        <div id="exam-list"></div>
+
+        <button class="add-topic-btn" onclick="addExam()">
+            + Add Exam
+        </button>
+
+    </section>
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back to Study Hub
+    </button>
+
+</div>
+
+<script>
+
+let exams = JSON.parse(
+    localStorage.getItem("rikiExams") || "[]"
+);
+
+function addExam() {
+
+    const subject = prompt("📚 Enter subject name:");
+
+    if (!subject || !subject.trim()) return;
+
+    const date = prompt(
+        "📅 Enter exam date (example: 20 September):"
+    );
+
+    if (!date || !date.trim()) return;
+
+    exams.push({
+        subject: subject.trim(),
+        date: date.trim()
+    });
+
+    saveExams();
+    displayExams();
+}
+
+function saveExams() {
+
+    localStorage.setItem(
+        "rikiExams",
+        JSON.stringify(exams)
+    );
+
+}
+
+function displayExams() {
+
+    const list = document.getElementById("exam-list");
+
+    list.innerHTML = "";
+
+    if (exams.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>📅</span>
+                <strong>No exams added yet</strong>
+                <small>Add your upcoming exams here.</small>
+           
