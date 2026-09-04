@@ -144,6 +144,7 @@ function displayAssignments() {
 
                 </div>
 
+<div class="assignment-actions">
 
                 <select
                     onchange="changeAssignmentStatus(${index}, this.value)"
@@ -165,7 +166,14 @@ function displayAssignments() {
                     </option>
 
                 </select>
+<button
+    class="delete-assignment-btn"
+    onclick="deleteAssignment(${index})"
+>
+    🗑️
+</button>
 
+</div>
             </div>
 
         `;
@@ -184,7 +192,20 @@ function changeAssignmentStatus(index, status) {
     displayAssignments();
 
 }
+function deleteAssignment(index) {
 
+    const confirmDelete = confirm(
+        "🗑️ Delete this assignment?"
+    );
+
+    if (!confirmDelete) return;
+
+    assignments.splice(index, 1);
+
+    saveAssignments();
+    displayAssignments();
+
+}
 
 // Show assignments
 displayAssignments();
