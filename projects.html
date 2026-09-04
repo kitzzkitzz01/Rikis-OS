@@ -1,0 +1,188 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Projects • Riki's OS 🧸</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <p class="small-text">RIKI'S OS • PROJECTS</p>
+        <h1>Project Garage 🛠️</h1>
+        <p>Build something you're proud of, Riki. 🧸💻</p>
+    </header>
+
+
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">BUILD & TRACK</p>
+                <h2>My Projects 🚀</h2>
+            </div>
+
+            <span>🛠️</span>
+        </div>
+
+
+        <div id="project-list"></div>
+
+
+        <button class="add-topic-btn" onclick="addProject()">
+            + Add Project
+        </button>
+
+    </section>
+
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back to Riki's OS
+    </button>
+
+</div>
+
+
+<script>
+
+let projects = JSON.parse(
+    localStorage.getItem("rikiProjects") || "[]"
+);
+
+
+// Add project
+function addProject() {
+
+    const name = prompt("🛠️ Enter project name:");
+
+    if (!name || !name.trim()) return;
+
+
+    const tech = prompt(
+        "💻 Enter technology used (example: Python):"
+    );
+
+    if (!tech || !tech.trim()) return;
+
+
+    projects.push({
+        name: name.trim(),
+        tech: tech.trim(),
+        status: "Planning"
+    });
+
+
+    saveProjects();
+    displayProjects();
+}
+
+
+// Save projects
+function saveProjects() {
+
+    localStorage.setItem(
+        "rikiProjects",
+        JSON.stringify(projects)
+    );
+
+}
+
+
+// Display projects
+function displayProjects() {
+
+    const list = document.getElementById("project-list");
+
+    list.innerHTML = "";
+
+
+    if (projects.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>🛠️</span>
+                <strong>No projects yet</strong>
+                <small>Add your first project when you're ready.</small>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    projects.forEach((project, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div>
+
+                    <strong>🛠️ ${project.name}</strong>
+
+                    <small>
+                        💻 ${project.tech}
+                    </small>
+
+                    <small>
+                        Status: ${project.status}
+                    </small>
+
+                </div>
+
+
+                <select
+                    onchange="changeProjectStatus(${index}, this.value)"
+                >
+
+                    <option
+                        ${project.status === "Planning" ? "selected" : ""}>
+                        Planning
+                    </option>
+
+                    <option
+                        ${project.status === "In Progress" ? "selected" : ""}>
+                        In Progress
+                    </option>
+
+                    <option
+                        ${project.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// Change project status
+function changeProjectStatus(index, status) {
+
+    projects[index].status = status;
+
+    saveProjects();
+    displayProjects();
+
+}
+
+
+displayProjects();
+
+</script>
+
+</body>
+
+</html>
