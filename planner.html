@@ -1,0 +1,184 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <title>Planner • Riki's OS 🧸</title>
+
+    <link rel="stylesheet" href="style.css">
+</head>
+
+<body>
+
+<div class="container">
+
+    <header>
+        <p class="small-text">RIKI'S OS • PLANNER</p>
+        <h1>My Planner 📅</h1>
+        <p>Plan your work. Take it one step at a time. 🧸💻</p>
+    </header>
+
+    <section class="study-page-card">
+
+        <div class="section-heading">
+            <div>
+                <p class="small-text">STAY ORGANIZED</p>
+                <h2>My Tasks 🎯</h2>
+            </div>
+
+            <span>📅</span>
+        </div>
+
+        <div id="task-list"></div>
+
+        <button class="add-topic-btn" onclick="addTask()">
+            + Add Task
+        </button>
+
+    </section>
+
+    <button class="back-btn" onclick="history.back()">
+        ← Back to Riki's OS
+    </button>
+
+</div>
+
+<script>
+
+let tasks = JSON.parse(
+    localStorage.getItem("rikiPlannerTasks") || "[]"
+);
+
+function addTask() {
+
+    const name = prompt("📝 Enter your task:");
+
+    if (!name || !name.trim()) return;
+
+    const deadline = prompt(
+        "📅 Enter deadline (example: 15 September):"
+    );
+
+    if (!deadline || !deadline.trim()) return;
+
+    tasks.push({
+        name: name.trim(),
+        deadline: deadline.trim(),
+        status: "Pending"
+    });
+
+    saveTasks();
+    displayTasks();
+}
+
+function saveTasks() {
+
+    localStorage.setItem(
+        "rikiPlannerTasks",
+        JSON.stringify(tasks)
+    );
+
+}
+
+function displayTasks() {
+
+    const list = document.getElementById("task-list");
+
+    list.innerHTML = "";
+
+    if (tasks.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>📅</span>
+                <strong>No tasks yet</strong>
+                <small>Add something you need to get done.</small>
+            </div>
+        `;
+
+        return;
+    }
+
+    tasks.forEach((task, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div>
+
+                    <strong>📌 ${task.name}</strong>
+
+                    <small>
+                        📅 Deadline: ${task.deadline}
+                    </small>
+
+                    <small>
+                        Status: ${task.status}
+                    </small>
+
+                </div>
+
+                <div class="assignment-actions">
+
+                    <select
+                        onchange="changeTaskStatus(${index}, this.value)"
+                    >
+
+                        <option
+                            ${task.status === "Pending" ? "selected" : ""}>
+                            Pending
+                        </option>
+
+                        <option
+                            ${task.status === "In Progress" ? "selected" : ""}>
+                            In Progress
+                        </option>
+
+                        <option
+                            ${task.status === "Completed" ? "selected" : ""}>
+                            Completed
+                        </option>
+
+                    </select>
+
+                    <button
+                        class="delete-assignment-btn"
+                        onclick="deleteTask(${index})"
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+function changeTaskStatus(index, status) {
+
+    tasks[index].status = status;
+
+    saveTasks();
+    displayTasks();
+
+}
+
+function deleteTask(index) {
+
+    const confirmDelete = confirm(
+        "🗑️ Delete this task?"
+    );
+
+    if (!confirmDelete) return;
+
+    tasks.splice(index, 1);
+
+    saveTasks();
+   
