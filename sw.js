@@ -16,6 +16,7 @@ const FILES_TO_CACHE = [
     "./planner.html",
     "./her.html",
     "./manifest.json"
+    ".icon.png"
 ];
 
 self.addEventListener("install", event => {
