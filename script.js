@@ -109,3 +109,8 @@ careCheckboxes.forEach(box => {
 
 checkCareNewDay();
 loadCareChecklist();
+if ("serviceWorker" in navigator) {
+    window.addEventListener("load", () => {
+        navigator.serviceWorker.register("./sw.js");
+    });
+}
