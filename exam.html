@@ -20,18 +20,23 @@
         <p>Keep track of your exams, Riki. 🧸📚</p>
     </header>
 
+
     <section class="study-page-card">
 
         <div class="section-heading">
+
             <div>
                 <p class="small-text">EXAM TRACKER</p>
                 <h2>Upcoming Exams 🎯</h2>
             </div>
 
             <span>📅</span>
+
         </div>
 
+
         <div id="exam-list"></div>
+
 
         <button class="add-topic-btn" onclick="addExam()">
             + Add Exam
@@ -39,23 +44,37 @@
 
     </section>
 
+
     <button class="back-btn" onclick="history.back()">
         ← Back to Study Hub
     </button>
 
 </div>
 
+
 <script>
+
+// =========================
+// EXAMS
+// =========================
 
 let exams = JSON.parse(
     localStorage.getItem("rikiExams") || "[]"
 );
 
+
+// =========================
+// ADD EXAM
+// =========================
+
 function addExam() {
 
-    const subject = prompt("📚 Enter subject name:");
+    const subject = prompt(
+        "📚 Enter subject name:"
+    );
 
     if (!subject || !subject.trim()) return;
+
 
     const date = prompt(
         "📅 Enter exam date (example: 20 September):"
@@ -63,14 +82,26 @@ function addExam() {
 
     if (!date || !date.trim()) return;
 
+
     exams.push({
+
         subject: subject.trim(),
+
         date: date.trim()
+
     });
 
+
     saveExams();
+
     displayExams();
+
 }
+
+
+// =========================
+// SAVE EXAMS
+// =========================
 
 function saveExams() {
 
@@ -81,17 +112,117 @@ function saveExams() {
 
 }
 
+
+// =========================
+// DISPLAY EXAMS
+// =========================
+
 function displayExams() {
 
-    const list = document.getElementById("exam-list");
+    const list =
+        document.getElementById("exam-list");
+
 
     list.innerHTML = "";
+
 
     if (exams.length === 0) {
 
         list.innerHTML = `
+
             <div class="empty-topic">
+
                 <span>📅</span>
-                <strong>No exams added yet</strong>
-                <small>Add your upcoming exams here.</small>
-           
+
+                <strong>
+                    No exams added yet
+                </strong>
+
+                <small>
+                    Add your upcoming exams here.
+                </small>
+
+            </div>
+
+        `;
+
+        return;
+    }
+
+
+    exams.forEach((exam, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div>
+
+                    <strong>
+                        📚 ${exam.subject}
+                    </strong>
+
+                    <small>
+                        📅 Exam Date: ${exam.date}
+                    </small>
+
+                </div>
+
+
+                <button
+                    onclick="deleteExam(${index})"
+                    style="
+                        border:1px solid #3a4358;
+                        background:#1b2232;
+                        color:#ff9fae;
+                        padding:9px 12px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    🗑️
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// =========================
+// DELETE EXAM
+// =========================
+
+function deleteExam(index) {
+
+    const confirmDelete = confirm(
+        "🧸 Delete this exam?"
+    );
+
+
+    if (!confirmDelete) return;
+
+
+    exams.splice(index, 1);
+
+    saveExams();
+
+    displayExams();
+
+}
+
+
+// =========================
+// START
+// =========================
+
+displayExams();
+
+</script>
+
+</body>
+
+</html>
