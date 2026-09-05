@@ -36,14 +36,22 @@
         <div id="project-list"></div>
 
 
-        <button class="add-topic-btn" onclick="addProject()">
+        <button
+            class="add-topic-btn"
+            type="button"
+            onclick="addProject()"
+        >
             + Add Project
         </button>
 
     </section>
 
 
-    <button class="back-btn" onclick="history.back()">
+    <button
+        class="back-btn"
+        type="button"
+        onclick="history.back()"
+    >
         ← Back to Riki's OS
     </button>
 
@@ -52,15 +60,38 @@
 
 <script>
 
+// =========================
+// LOAD PROJECTS
+// =========================
+
 let projects = JSON.parse(
     localStorage.getItem("rikiProjects") || "[]"
 );
 
 
-// Add project
+// =========================
+// SAVE PROJECTS
+// =========================
+
+function saveProjects() {
+
+    localStorage.setItem(
+        "rikiProjects",
+        JSON.stringify(projects)
+    );
+
+}
+
+
+// =========================
+// ADD PROJECT
+// =========================
+
 function addProject() {
 
-    const name = prompt("🛠️ Enter project name:");
+    const name = prompt(
+        "🛠️ Enter project name:"
+    );
 
     if (!name || !name.trim()) return;
 
@@ -73,59 +104,147 @@ function addProject() {
 
 
     projects.push({
+
         name: name.trim(),
+
         tech: tech.trim(),
+
         status: "Planning"
+
     });
 
 
     saveProjects();
+
     displayProjects();
+
 }
 
 
-// Save projects
-function saveProjects() {
+// =========================
+// EDIT PROJECT
+// =========================
 
-    localStorage.setItem(
-        "rikiProjects",
-        JSON.stringify(projects)
+function editProject(index) {
+
+    const newName = prompt(
+        "✏️ Edit project name:",
+        projects[index].name
     );
 
+    if (!newName || !newName.trim()) return;
+
+
+    const newTech = prompt(
+        "💻 Edit technology:",
+        projects[index].tech
+    );
+
+    if (!newTech || !newTech.trim()) return;
+
+
+    projects[index].name = newName.trim();
+
+    projects[index].tech = newTech.trim();
+
+
+    saveProjects();
+
+    displayProjects();
+
 }
 
 
-// Display projects
+// =========================
+// DELETE PROJECT
+// =========================
+
+function deleteProject(index) {
+
+    const confirmed = confirm(
+        "🧸 Delete this project?\n\nThis cannot be undone."
+    );
+
+    if (!confirmed) return;
+
+
+    projects.splice(index, 1);
+
+
+    saveProjects();
+
+    displayProjects();
+
+}
+
+
+// =========================
+// CHANGE STATUS
+// =========================
+
+function changeProjectStatus(index, status) {
+
+    projects[index].status = status;
+
+
+    saveProjects();
+
+    displayProjects();
+
+}
+
+
+// =========================
+// DISPLAY PROJECTS
+// =========================
+
 function displayProjects() {
 
-    const list = document.getElementById("project-list");
+    const list =
+        document.getElementById("project-list");
 
     list.innerHTML = "";
 
 
+    // Empty state
+
     if (projects.length === 0) {
 
         list.innerHTML = `
+
             <div class="empty-topic">
+
                 <span>🛠️</span>
-                <strong>No projects yet</strong>
-                <small>Add your first project when you're ready.</small>
+
+                <strong>
+                    No projects yet
+                </strong>
+
+                <small>
+                    Add your first project when you're ready.
+                </small>
+
             </div>
+
         `;
 
         return;
     }
 
 
-    projects.forEach((project, index) => {
+    // Display projects
+
+    projects.forEach(function(project, index) {
 
         list.innerHTML += `
 
             <div class="topic-card">
 
-                <div>
+                <div style="flex:1;">
 
-                    <strong>🛠️ ${project.name}</strong>
+                    <strong>
+                        🛠️ ${project.name}
+                    </strong>
 
                     <small>
                         💻 ${project.tech}
@@ -143,21 +262,61 @@ function displayProjects() {
                 >
 
                     <option
-                        ${project.status === "Planning" ? "selected" : ""}>
+                        value="Planning"
+                        ${project.status === "Planning" ? "selected" : ""}
+                    >
                         Planning
                     </option>
 
+
                     <option
-                        ${project.status === "In Progress" ? "selected" : ""}>
+                        value="In Progress"
+                        ${project.status === "In Progress" ? "selected" : ""}
+                    >
                         In Progress
                     </option>
 
+
                     <option
-                        ${project.status === "Completed" ? "selected" : ""}>
+                        value="Completed"
+                        ${project.status === "Completed" ? "selected" : ""}
+                    >
                         Completed
                     </option>
 
                 </select>
+
+
+                <button
+                    type="button"
+                    onclick="editProject(${index})"
+                    style="
+                        border:1px solid #3a4358;
+                        background:#1b2232;
+                        color:#c9b4ff;
+                        padding:8px 10px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    ✏️
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="deleteProject(${index})"
+                    style="
+                        border:1px solid #3a4358;
+                        background:#1b2232;
+                        color:#ff9fae;
+                        padding:8px 10px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    🗑️
+                </button>
 
             </div>
 
@@ -168,16 +327,9 @@ function displayProjects() {
 }
 
 
-// Change project status
-function changeProjectStatus(index, status) {
-
-    projects[index].status = status;
-
-    saveProjects();
-    displayProjects();
-
-}
-
+// =========================
+// START
+// =========================
 
 displayProjects();
 
