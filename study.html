@@ -225,11 +225,85 @@ function addSubject() {
     });
 
 
+    saveSubjects();
+
+    displaySubjects();
+
+}
+
+
+// =========================
+// SAVE SUBJECTS
+// =========================
+
+function saveSubjects() {
+
     localStorage.setItem(
         "rikiSubjects",
         JSON.stringify(subjects)
     );
 
+}
+
+
+// =========================
+// EDIT SUBJECT
+// =========================
+
+function editSubject(index) {
+
+    const subject = subjects[index];
+
+
+    const newName = prompt(
+        "✏️ Edit subject name:",
+        subject.name
+    );
+
+    if (!newName || !newName.trim()) return;
+
+
+    const newSemester = prompt(
+        "🎓 Edit semester:",
+        subject.semester
+    );
+
+    if (!newSemester || !newSemester.trim()) return;
+
+
+    subjects[index].name = newName.trim();
+
+    subjects[index].semester = newSemester.trim();
+
+
+    saveSubjects();
+
+    displaySubjects();
+
+}
+
+
+// =========================
+// DELETE SUBJECT
+// =========================
+
+function deleteSubject(index) {
+
+    const subject = subjects[index];
+
+
+    const confirmDelete = confirm(
+        `🧸 Delete "${subject.name}"?\n\nThis cannot be undone.`
+    );
+
+
+    if (!confirmDelete) return;
+
+
+    subjects.splice(index, 1);
+
+
+    saveSubjects();
 
     displaySubjects();
 
@@ -255,11 +329,13 @@ function displaySubjects() {
 
             <div
                 class="subject-card"
-                onclick="openSubject(${index})"
                 style="cursor:pointer;"
             >
 
-                <div>
+                <div
+                    onclick="openSubject(${index})"
+                    style="flex:1;"
+                >
 
                     <strong>
                         📖 ${subject.name}
@@ -268,6 +344,45 @@ function displaySubjects() {
                     <small>
                         Semester ${subject.semester}
                     </small>
+
+                </div>
+
+
+                <div
+                    style="
+                        display:flex;
+                        gap:8px;
+                    "
+                >
+
+                    <button
+                        onclick="event.stopPropagation(); editSubject(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#c9b4ff;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        ✏️
+                    </button>
+
+
+                    <button
+                        onclick="event.stopPropagation(); deleteSubject(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#ff9fae;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        🗑️
+                    </button>
 
                 </div>
 
@@ -280,7 +395,11 @@ function displaySubjects() {
 
     list.innerHTML += `
 
-        <div class="subject-card">
+        <div
+            class="subject-card"
+            onclick="addSubject()"
+            style="cursor:pointer;"
+        >
 
             <div>
 
