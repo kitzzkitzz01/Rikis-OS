@@ -21,10 +21,6 @@
     </header>
 
 
-    <!-- =========================
-         MY SKILLS
-         ========================= -->
-
     <section class="study-page-card">
 
         <div class="section-heading">
@@ -44,18 +40,14 @@
 
         <button
             class="add-topic-btn"
-            id="add-skill-btn"
             type="button"
+            onclick="addSkill()"
         >
             + Add Skill
         </button>
 
     </section>
 
-
-    <!-- =========================
-         CODING GOALS
-         ========================= -->
 
     <section class="study-page-card">
 
@@ -76,8 +68,8 @@
 
         <button
             class="add-topic-btn"
-            id="add-goal-btn"
             type="button"
+            onclick="addGoal()"
         >
             + Add Coding Goal
         </button>
@@ -112,7 +104,7 @@ let goals = JSON.parse(
 
 
 // =========================
-// SAVE SKILLS
+// SKILLS
 // =========================
 
 function saveSkills() {
@@ -125,33 +117,13 @@ function saveSkills() {
 }
 
 
-// =========================
-// SAVE GOALS
-// =========================
-
-function saveGoals() {
-
-    localStorage.setItem(
-        "rikiCodingGoals",
-        JSON.stringify(goals)
-    );
-
-}
-
-
-// =========================
-// ADD SKILL
-// =========================
-
 function addSkill() {
 
-    const name = window.prompt(
+    const name = prompt(
         "💻 Enter a skill you are learning:"
     );
 
-    if (name === null || name.trim() === "") {
-        return;
-    }
+    if (!name || !name.trim()) return;
 
     skills.push({
         name: name.trim(),
@@ -164,22 +136,14 @@ function addSkill() {
 }
 
 
-// =========================
-// EDIT SKILL
-// =========================
-
 function editSkill(index) {
 
-    const skill = skills[index];
-
-    const newName = window.prompt(
+    const newName = prompt(
         "✏️ Edit skill name:",
-        skill.name
+        skills[index].name
     );
 
-    if (newName === null || newName.trim() === "") {
-        return;
-    }
+    if (!newName || !newName.trim()) return;
 
     skills[index].name = newName.trim();
 
@@ -189,21 +153,13 @@ function editSkill(index) {
 }
 
 
-// =========================
-// DELETE SKILL
-// =========================
-
 function deleteSkill(index) {
 
-    const skill = skills[index];
-
-    const confirmed = window.confirm(
-        '🧸 Delete "' + skill.name + '"?\n\nThis cannot be undone.'
+    const confirmed = confirm(
+        "🧸 Delete this skill?"
     );
 
-    if (!confirmed) {
-        return;
-    }
+    if (!confirmed) return;
 
     skills.splice(index, 1);
 
@@ -213,19 +169,322 @@ function deleteSkill(index) {
 }
 
 
-// =========================
-// CHANGE SKILL STATUS
-// =========================
-
 function changeSkillStatus(index, status) {
 
     skills[index].status = status;
 
     saveSkills();
     displaySkills();
+
+}
+
+
+function displaySkills() {
+
+    const list =
+        document.getElementById("skill-list");
+
+    list.innerHTML = "";
+
+
+    if (skills.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+
+                <span>💻</span>
+
+                <strong>
+                    No skills added yet
+                </strong>
+
+                <small>
+                    Add the coding skills you want to learn.
+                </small>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    skills.forEach(function(skill, index) {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div style="flex:1;">
+
+                    <strong>
+                        💻 ${skill.name}
+                    </strong>
+
+                    <small>
+                        Status: ${skill.status}
+                    </small>
+
+                </div>
+
+
+                <select
+                    onchange="changeSkillStatus(${index}, this.value)"
+                >
+
+                    <option value="Learning"
+                        ${skill.status === "Learning" ? "selected" : ""}>
+                        Learning
+                    </option>
+
+                    <option value="Practicing"
+                        ${skill.status === "Practicing" ? "selected" : ""}>
+                        Practicing
+                    </option>
+
+                    <option value="Completed"
+                        ${skill.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="button"
+                    onclick="editSkill(${index})"
+                    style="
+                        border:1px solid #3a4358;
+                        background:#1b2232;
+                        color:#c9b4ff;
+                        padding:8px 10px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    ✏️
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="deleteSkill(${index})"
+                    style="
+                        border:1px solid #3a4358;
+                        background:#1b2232;
+                        color:#ff9fae;
+                        padding:8px 10px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    🗑️
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// =========================
+// CODING GOALS
+// =========================
+
+function saveGoals() {
+
+    localStorage.setItem(
+        "rikiCodingGoals",
+        JSON.stringify(goals)
+    );
+
+}
+
+
+function addGoal() {
+
+    const name = prompt(
+        "🎯 Enter your coding goal:"
+    );
+
+    if (!name || !name.trim()) return;
+
+    goals.push({
+        name: name.trim(),
+        status: "Not Started"
+    });
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+function editGoal(index) {
+
+    const newName = prompt(
+        "✏️ Edit coding goal:",
+        goals[index].name
+    );
+
+    if (!newName || !newName.trim()) return;
+
+    goals[index].name = newName.trim();
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+function deleteGoal(index) {
+
+    const confirmed = confirm(
+        "🧸 Delete this coding goal?"
+    );
+
+    if (!confirmed) return;
+
+    goals.splice(index, 1);
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+function changeGoalStatus(index, status) {
+
+    goals[index].status = status;
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+function displayGoals() {
+
+    const list =
+        document.getElementById("goal-list");
+
+    list.innerHTML = "";
+
+
+    if (goals.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+
+                <span>🎯</span>
+
+                <strong>
+                    No coding goals yet
+                </strong>
+
+                <small>
+                    Add a goal and start working towards it.
+                </small>
+
+            </div>
+        `;
+
+        return;
+    }
+
+
+    goals.forEach(function(goal, index) {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div style="flex:1;">
+
+                    <strong>
+                        🎯 ${goal.name}
+                    </strong>
+
+                    <small>
+                        Status: ${goal.status}
+                    </small>
+
+                </div>
+
+
+                <select
+                    onchange="changeGoalStatus(${index}, this.value)"
+                >
+
+                    <option value="Not Started"
+                        ${goal.status === "Not Started" ? "selected" : ""}>
+                        Not Started
+                    </option>
+
+                    <option value="In Progress"
+                        ${goal.status === "In Progress" ? "selected" : ""}>
+                        In Progress
+                    </option>
+
+                    <option value="Completed"
+                        ${goal.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <button
+                    type="button"
+                    onclick="editGoal(${index})"
+                    style="
+                        border:1px solid #3a4358;
+                        background:#1b2232;
+                        color:#c9b4ff;
+                        padding:8px 10px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    ✏️
+                </button>
+
+
+                <button
+                    type="button"
+                    onclick="deleteGoal(${index})"
+                    style="
+                        border:1px solid #3a4358;
+                        background:#1b2232;
+                        color:#ff9fae;
+                        padding:8px 10px;
+                        border-radius:10px;
+                        cursor:pointer;
+                    "
+                >
+                    🗑️
+                </button>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// =========================
+// START
+// =========================
+
+displaySkills();
 displayGoals();
 
-    </script>
+</script>
 
 </body>
 
