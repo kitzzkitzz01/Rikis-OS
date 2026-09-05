@@ -44,7 +44,6 @@
 
 </div>
 
-
 <script>
 
 const subject =
@@ -60,13 +59,19 @@ document.getElementById("topic-subtitle").textContent =
     "Semester " + semester + " • Topics 📚";
 
 
-// Load saved topics
+// =========================
+// LOAD TOPICS
+// =========================
+
 let topics = JSON.parse(
     localStorage.getItem("rikiTopics_" + subject) || "[]"
 );
 
 
-// Add a new topic
+// =========================
+// ADD TOPIC
+// =========================
+
 function addTopic() {
 
     const name = prompt("📚 Enter topic name:");
@@ -83,7 +88,10 @@ function addTopic() {
 }
 
 
-// Save topics
+// =========================
+// SAVE TOPICS
+// =========================
+
 function saveTopics() {
 
     localStorage.setItem(
@@ -94,10 +102,57 @@ function saveTopics() {
 }
 
 
-// Display topics
+// =========================
+// EDIT TOPIC
+// =========================
+
+function editTopic(index) {
+
+    const topic = topics[index];
+
+    const newName = prompt(
+        "✏️ Edit topic name:",
+        topic.name
+    );
+
+    if (!newName || !newName.trim()) return;
+
+    topics[index].name = newName.trim();
+
+    saveTopics();
+    displayTopics();
+}
+
+
+// =========================
+// DELETE TOPIC
+// =========================
+
+function deleteTopic(index) {
+
+    const topic = topics[index];
+
+    const confirmDelete = confirm(
+        `🧸 Delete "${topic.name}"?\n\nThis cannot be undone.`
+    );
+
+    if (!confirmDelete) return;
+
+    topics.splice(index, 1);
+
+    saveTopics();
+    displayTopics();
+}
+
+
+// =========================
+// DISPLAY TOPICS
+// =========================
+
 function displayTopics() {
 
-    const list = document.getElementById("topic-list");
+    const list =
+        document.getElementById("topic-list");
 
     list.innerHTML = "";
 
@@ -105,9 +160,17 @@ function displayTopics() {
 
         list.innerHTML = `
             <div class="empty-topic">
+
                 <span>📚</span>
-                <strong>No topics added yet</strong>
-                <small>Add your first topic to start tracking.</small>
+
+                <strong>
+                    No topics added yet
+                </strong>
+
+                <small>
+                    Add your first topic to start tracking.
+                </small>
+
             </div>
         `;
 
@@ -121,15 +184,22 @@ function displayTopics() {
 
             <div class="topic-card">
 
-                <div>
-                    <strong>📖 ${topic.name}</strong>
+                <div style="flex:1;">
+
+                    <strong>
+                        📖 ${topic.name}
+                    </strong>
 
                     <small>
                         Status: ${topic.status}
                     </small>
+
                 </div>
 
-                <select onchange="changeStatus(${index}, this.value)">
+
+                <select
+                    onchange="changeStatus(${index}, this.value)"
+                >
 
                     <option
                         ${topic.status === "Not Started" ? "selected" : ""}>
@@ -148,6 +218,46 @@ function displayTopics() {
 
                 </select>
 
+
+                <div
+                    style="
+                        display:flex;
+                        gap:8px;
+                        margin-left:8px;
+                    "
+                >
+
+                    <button
+                        onclick="editTopic(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#c9b4ff;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        ✏️
+                    </button>
+
+
+                    <button
+                        onclick="deleteTopic(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#ff9fae;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
             </div>
 
         `;
@@ -157,7 +267,10 @@ function displayTopics() {
 }
 
 
-// Change topic status
+// =========================
+// CHANGE STATUS
+// =========================
+
 function changeStatus(index, status) {
 
     topics[index].status = status;
@@ -168,7 +281,10 @@ function changeStatus(index, status) {
 }
 
 
-// Show topics
+// =========================
+// START
+// =========================
+
 displayTopics();
 
 </script>
