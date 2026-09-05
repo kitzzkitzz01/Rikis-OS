@@ -222,8 +222,324 @@ function saveGoals() {
 
 
 function displayGoals() {
+<script>
 
-    const list = document.getElementById("goal-list");
+// =========================
+// SKILLS
+// =========================
+
+let skills = JSON.parse(
+    localStorage.getItem("rikiCodingSkills") || "[]"
+);
+
+
+// =========================
+// ADD SKILL
+// =========================
+
+function addSkill() {
+
+    const name = prompt(
+        "💻 Enter a skill you are learning:"
+    );
+
+    if (!name || !name.trim()) return;
+
+    skills.push({
+        name: name.trim(),
+        status: "Learning"
+    });
+
+    saveSkills();
+    displaySkills();
+}
+
+
+// =========================
+// SAVE SKILLS
+// =========================
+
+function saveSkills() {
+
+    localStorage.setItem(
+        "rikiCodingSkills",
+        JSON.stringify(skills)
+    );
+
+}
+
+
+// =========================
+// EDIT SKILL
+// =========================
+
+function editSkill(index) {
+
+    const skill = skills[index];
+
+    const newName = prompt(
+        "✏️ Edit skill name:",
+        skill.name
+    );
+
+    if (!newName || !newName.trim()) return;
+
+    skills[index].name = newName.trim();
+
+    saveSkills();
+    displaySkills();
+}
+
+
+// =========================
+// DELETE SKILL
+// =========================
+
+function deleteSkill(index) {
+
+    const skill = skills[index];
+
+    const confirmDelete = confirm(
+        `🧸 Delete "${skill.name}"?\n\nThis cannot be undone.`
+    );
+
+    if (!confirmDelete) return;
+
+    skills.splice(index, 1);
+
+    saveSkills();
+    displaySkills();
+}
+
+
+// =========================
+// DISPLAY SKILLS
+// =========================
+
+function displaySkills() {
+
+    const list =
+        document.getElementById("skill-list");
+
+    list.innerHTML = "";
+
+    if (skills.length === 0) {
+
+        list.innerHTML = `
+            <div class="empty-topic">
+                <span>💻</span>
+                <strong>No skills added yet</strong>
+                <small>Add the coding skills you want to learn.</small>
+            </div>
+        `;
+
+        return;
+    }
+
+
+    skills.forEach((skill, index) => {
+
+        list.innerHTML += `
+
+            <div class="topic-card">
+
+                <div style="flex:1;">
+
+                    <strong>
+                        💻 ${skill.name}
+                    </strong>
+
+                    <small>
+                        Status: ${skill.status}
+                    </small>
+
+                </div>
+
+
+                <select
+                    onchange="changeSkillStatus(${index}, this.value)"
+                >
+
+                    <option
+                        ${skill.status === "Learning" ? "selected" : ""}>
+                        Learning
+                    </option>
+
+                    <option
+                        ${skill.status === "Practicing" ? "selected" : ""}>
+                        Practicing
+                    </option>
+
+                    <option
+                        ${skill.status === "Completed" ? "selected" : ""}>
+                        Completed
+                    </option>
+
+                </select>
+
+
+                <div
+                    style="
+                        display:flex;
+                        gap:8px;
+                        margin-left:8px;
+                    "
+                >
+
+                    <button
+                        onclick="editSkill(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#c9b4ff;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        ✏️
+                    </button>
+
+
+                    <button
+                        onclick="deleteSkill(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#ff9fae;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
+            </div>
+
+        `;
+
+    });
+
+}
+
+
+// =========================
+// CHANGE SKILL STATUS
+// =========================
+
+function changeSkillStatus(index, status) {
+
+    skills[index].status = status;
+
+    saveSkills();
+    displaySkills();
+
+}
+
+
+
+// =========================
+// CODING GOALS
+// =========================
+
+let goals = JSON.parse(
+    localStorage.getItem("rikiCodingGoals") || "[]"
+);
+
+
+// =========================
+// ADD GOAL
+// =========================
+
+function addGoal() {
+
+    const name = prompt(
+        "🎯 Enter your coding goal:"
+    );
+
+    if (!name || !name.trim()) return;
+
+    goals.push({
+        name: name.trim(),
+        status: "Not Started"
+    });
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+// =========================
+// SAVE GOALS
+// =========================
+
+function saveGoals() {
+
+    localStorage.setItem(
+        "rikiCodingGoals",
+        JSON.stringify(goals)
+    );
+
+}
+
+
+// =========================
+// EDIT GOAL
+// =========================
+
+function editGoal(index) {
+
+    const goal = goals[index];
+
+    const newName = prompt(
+        "✏️ Edit coding goal:",
+        goal.name
+    );
+
+    if (!newName || !newName.trim()) return;
+
+    goals[index].name = newName.trim();
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+// =========================
+// DELETE GOAL
+// =========================
+
+function deleteGoal(index) {
+
+    const goal = goals[index];
+
+    const confirmDelete = confirm(
+        `🧸 Delete "${goal.name}"?\n\nThis cannot be undone.`
+    );
+
+    if (!confirmDelete) return;
+
+    goals.splice(index, 1);
+
+    saveGoals();
+    displayGoals();
+
+}
+
+
+// =========================
+// DISPLAY GOALS
+// =========================
+
+function displayGoals() {
+
+    const list =
+        document.getElementById("goal-list");
 
     list.innerHTML = "";
 
@@ -247,15 +563,18 @@ function displayGoals() {
 
             <div class="topic-card">
 
-                <div>
+                <div style="flex:1;">
 
-                    <strong>🎯 ${goal.name}</strong>
+                    <strong>
+                        🎯 ${goal.name}
+                    </strong>
 
                     <small>
                         Status: ${goal.status}
                     </small>
 
                 </div>
+
 
                 <select
                     onchange="changeGoalStatus(${index}, this.value)"
@@ -278,6 +597,46 @@ function displayGoals() {
 
                 </select>
 
+
+                <div
+                    style="
+                        display:flex;
+                        gap:8px;
+                        margin-left:8px;
+                    "
+                >
+
+                    <button
+                        onclick="editGoal(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#c9b4ff;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        ✏️
+                    </button>
+
+
+                    <button
+                        onclick="deleteGoal(${index})"
+                        style="
+                            border:1px solid #3a4358;
+                            background:#1b2232;
+                            color:#ff9fae;
+                            padding:8px 10px;
+                            border-radius:10px;
+                            cursor:pointer;
+                        "
+                    >
+                        🗑️
+                    </button>
+
+                </div>
+
             </div>
 
         `;
@@ -286,6 +645,10 @@ function displayGoals() {
 
 }
 
+
+// =========================
+// CHANGE GOAL STATUS
+// =========================
 
 function changeGoalStatus(index, status) {
 
@@ -305,7 +668,6 @@ displaySkills();
 displayGoals();
 
 </script>
-
 </body>
 
 </html>
